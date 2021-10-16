@@ -1,0 +1,4 @@
+#!/bin/sh
+export DIGIKEY_CLIENT_ID="rKoSVj1TNrupoP09tCZCWzEPSnIi1BQ3"
+export DIGIKEY_CLIENT_SECERT="d7ZaMAln0cOz2vAp"
+export DIGIKEY_STORAGE_PATH="."
