@@ -1,0 +1,28 @@
+<svg viewBox="-2000 -2000 4000 4000" xmlns="http://www.w3.org/2000/svg">
+<g transform="rotate(-90, 0, 0) translate(0,0)">
+<path d="M-100,0 L-70,30" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M-70,30 L-10,-30" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M-10,-30 L50,30" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M50,30 L110,-30" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M110,-30 L170,30" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M170,30 L200,0" fill="none" stroke="#0433FF" stroke-width="10"/>
+<text alignment-baseline="hanging" font-family="monospace" font-size="85" text-anchor="begin" x="-110" y="40">
+R?
+</text>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="begin" x="-110" y="-40">
+68K 1%
+</text>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="begin" x="-110" y="-140">
+1/10W
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-15" y="0">
+
+</text>
+<path d="M-100,0 L-300,0" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="115" y="0">
+
+</text>
+<path d="M200,0 L400,0" fill="none" stroke="black" stroke-width="10"/>
+</g>
+<path d="M-230,300 L-230,-400 L230,-400 L230,300 z" fill="none" stroke="green" stroke-width="2"/>
+</svg>

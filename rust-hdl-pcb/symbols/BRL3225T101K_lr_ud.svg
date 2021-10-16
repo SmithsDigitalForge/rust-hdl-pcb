@@ -1,0 +1,26 @@
+<svg viewBox="-2000 -2000 4000 4000" xmlns="http://www.w3.org/2000/svg">
+<g transform=" translate(0,0)">
+<path d="M199.99992,0.087266415 A50,50,0,0,1,100,-0.0000000000000061232338" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M99.99992,0.087266415 A50,50,0,0,1,0,-0.0000000000000061232338" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M-0.000076154334,0.087266415 A50,50,0,0,1,-100,-0.0000000000000061232338" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M-100.00008,0.087266415 A50,50,0,0,1,-200,-0.0000000000000061232338" fill="none" stroke="#0433FF" stroke-width="10"/>
+<text alignment-baseline="hanging" font-family="monospace" font-size="85" text-anchor="end" x="200" y="70">
+L?
+</text>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="end" x="300" y="-30">
+100uH 250mA
+</text>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="end" x="300" y="-130">
+2.5R
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="115" y="0">
+
+</text>
+<path d="M200,0 L400,0" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-115" y="0">
+
+</text>
+<path d="M-200,0 L-400,0" fill="none" stroke="black" stroke-width="10"/>
+</g>
+<path d="M-400,250 L-400,-215 L400,-215 L400,250 z" fill="none" stroke="green" stroke-width="2"/>
+</svg>

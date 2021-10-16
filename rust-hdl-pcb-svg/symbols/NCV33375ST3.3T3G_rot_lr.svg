@@ -1,0 +1,40 @@
+<svg viewBox="-2000 -2000 4000 4000" xmlns="http://www.w3.org/2000/svg">
+<g transform="rotate(-90, 0, 0) translate(0,0)">
+<path d="M-500,200 L-500,-400 L400,-400 L400,200 z" fill="#FFFDB0" stroke="#AE5E46" stroke-width="5"/>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="end" x="400" y="-400">
+V?
+</text>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="end" x="200" y="-400">
+NCV33375ST3.3T3G
+</text>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="485" y="-215">
+1
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="315" y="-200">
+VIN
+</text>
+<path d="M400,-200 L600,-200" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="485" y="85">
+2
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="315" y="100">
+ON/OFF
+</text>
+<path d="M400,100 L600,100" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-585" y="-215">
+3
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-415" y="-200">
+VOUT
+</text>
+<path d="M-500,-200 L-700,-200" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="end" transform="rotate(-90, -100, 200) translate(-185 185)" x="0" y="0">
+4
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" transform="rotate(-90, -100, 115) translate(-100 115)">
+GND
+</text>
+<path d="M-100,200 L-100,400" fill="none" stroke="black" stroke-width="10"/>
+</g>
+<path d="M-600,700 L-600,-600 L400,-600 L400,700 z" fill="none" stroke="green" stroke-width="2"/>
+</svg>

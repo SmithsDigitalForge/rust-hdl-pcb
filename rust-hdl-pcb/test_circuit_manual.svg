@@ -1,0 +1,141 @@
+<svg viewBox="-2000 -2000 7000 7000" xmlns="http://www.w3.org/2000/svg">
+<g>
+<g transform=" translate(0,-200)">
+<path d="M-100,0 L-70,-30" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M-70,-30 L-10,30" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M-10,30 L50,-30" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M50,-30 L110,30" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M110,30 L170,-30" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M170,-30 L200,0" fill="none" stroke="#0433FF" stroke-width="10"/>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="begin" x="-110" y="-40">
+R?
+</text>
+<text alignment-baseline="hanging" font-family="monospace" font-size="85" text-anchor="begin" x="-110" y="40">
+1K 1%
+</text>
+<text alignment-baseline="hanging" font-family="monospace" font-size="85" text-anchor="begin" x="-110" y="140">
+1/4W
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-15" y="0">
+
+</text>
+<path d="M-100,0 L-300,0" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="115" y="0">
+
+</text>
+<path d="M200,0 L400,0" fill="none" stroke="black" stroke-width="10"/>
+</g>
+<g transform="rotate(-90, 900, 200) translate(900,200)">
+<path d="M30,-70 L30,70" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M70,-70 L70,70" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M30,0 L0,0" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M70,0 L100,0" fill="none" stroke="#0433FF" stroke-width="10"/>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="begin" x="-10" y="-80">
+C?
+</text>
+<text alignment-baseline="hanging" font-family="monospace" font-size="85" text-anchor="begin" x="-200" y="80">
+1uF 10%
+</text>
+<text alignment-baseline="hanging" font-family="monospace" font-size="85" text-anchor="begin" x="-200" y="180">
+50V X5R
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="85" y="0">
+
+</text>
+<path d="M0,0 L-200,0" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="15" y="0">
+
+</text>
+<path d="M100,0 L300,0" fill="none" stroke="black" stroke-width="10"/>
+</g>
+<g transform=" translate(2300,0)">
+<path d="M-500,200 L-500,-300 L500,-300 L500,200 z" fill="#FFFDB0" stroke="#AE5E46" stroke-width="5"/>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="begin" x="-500" y="-300">
+V?
+</text>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="begin" x="-300" y="-300">
+TPS7B8433QDCYRQ1
+</text>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-585" y="-215">
+1
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-415" y="-200">
+IN
+</text>
+<path d="M-500,-200 L-700,-200" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-585" y="85">
+2
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-415" y="100">
+EN
+</text>
+<path d="M-500,100 L-700,100" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="585" y="-215">
+3
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="415" y="-200">
+OUT
+</text>
+<path d="M500,-200 L700,-200" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="end" transform="rotate(-90, 0, 200) translate(-85 185)" x="0" y="0">
+4
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" transform="rotate(-90, 0, 115) translate(0 115)">
+GND
+</text>
+<path d="M0,200 L0,400" fill="none" stroke="black" stroke-width="10"/>
+</g>
+<g transform="rotate(-90, 3500, 200) translate(3500,200)">
+<path d="M30,-70 L30,70" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M70,-70 L70,70" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M30,0 L0,0" fill="none" stroke="#0433FF" stroke-width="10"/>
+<path d="M70,0 L100,0" fill="none" stroke="#0433FF" stroke-width="10"/>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="begin" x="-10" y="-80">
+C?
+</text>
+<text alignment-baseline="hanging" font-family="monospace" font-size="85" text-anchor="begin" x="-200" y="80">
+10uF 10%
+</text>
+<text alignment-baseline="hanging" font-family="monospace" font-size="85" text-anchor="begin" x="-200" y="180">
+25V X5R
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="85" y="0">
+
+</text>
+<path d="M0,0 L-200,0" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="15" y="0">
+
+</text>
+<path d="M100,0 L300,0" fill="none" stroke="black" stroke-width="10"/>
+</g>
+<g transform=" translate(-800,-200)">
+<path d="M-220,55 L-220,-55 L220,-55 L220,55 z" fill="#FFFDB0" stroke="#AE5E46" stroke-width="5"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="135" y="0">
++VIN
+</text>
+<path d="M220,0 L420,0" fill="none" stroke="black" stroke-width="10"/>
+</g>
+<g transform=" translate(4800,-200)">
+<path d="M-440,55 L-440,-55 L440,-55 L440,55 z" fill="#FFFDB0" stroke="#AE5E46" stroke-width="5"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-355" y="0">
++3V3_OUT
+</text>
+<path d="M-440,0 L-640,0" fill="none" stroke="black" stroke-width="10"/>
+</g>
+<g transform="rotate(-90, 2300, 1200) translate(2300,1200)">
+<path d="M-165,55 L-165,-55 L165,-55 L165,55 z" fill="#FFFDB0" stroke="#AE5E46" stroke-width="5"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="80" y="0">
+GND
+</text>
+<path d="M165,0 L365,0" fill="none" stroke="black" stroke-width="10"/>
+</g>
+</g>
+<path d="M-380,-200 L-300,-200" fill="none" stroke="#000080" stroke-width="10"/>
+<circle cx="900" cy="-200" fill="black" r="25"/>
+<circle cx="1600" cy="-200" fill="black" r="25"/>
+<path d="M400,-200 L900,-200 L900,-100 M900,-200 L1600,-200 L1600,100" fill="none" stroke="#000080" stroke-width="10"/>
+<circle cx="2300" cy="800" fill="black" r="25"/>
+<path d="M900,400 L900,800 L2300,800 L2300,400 L2300,835 M2300,800 L3500,800 L3500,400" fill="none" stroke="#000080" stroke-width="10"/>
+<circle cx="3500" cy="-200" fill="black" r="25"/>
+<path d="M4160,-200 L3500,-200 L3000,-200 M3500,-200 L3500,-100" fill="none" stroke="#000080" stroke-width="10"/>
+</svg>

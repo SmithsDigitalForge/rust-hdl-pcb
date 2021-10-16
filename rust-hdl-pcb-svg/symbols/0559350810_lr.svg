@@ -1,0 +1,44 @@
+<svg viewBox="-2000 -2000 4000 4000" xmlns="http://www.w3.org/2000/svg">
+<g transform=" translate(0,0)">
+<path d="M0,500 L0,-400 L200,-400 L200,500 z" fill="#FFFDB0" stroke="#AE5E46" stroke-width="5"/>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="end" x="200" y="-400">
+J?
+</text>
+<text alignment-baseline="hanging" font-family="monospace" font-size="85" text-anchor="end" x="200" y="500">
+0559350810
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="85" y="-300">
+1
+</text>
+<path d="M0,-300 L-200,-300" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="85" y="-200">
+2
+</text>
+<path d="M0,-200 L-200,-200" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="85" y="-100">
+3
+</text>
+<path d="M0,-100 L-200,-100" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="85" y="0">
+4
+</text>
+<path d="M0,0 L-200,0" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="85" y="100">
+5
+</text>
+<path d="M0,100 L-200,100" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="85" y="200">
+6
+</text>
+<path d="M0,200 L-200,200" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="85" y="300">
+7
+</text>
+<path d="M0,300 L-200,300" fill="none" stroke="black" stroke-width="10"/>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="85" y="400">
+8
+</text>
+<path d="M0,400 L-200,400" fill="none" stroke="black" stroke-width="10"/>
+</g>
+<path d="M-350,700 L-350,-600 L400,-600 L400,700 z" fill="none" stroke="green" stroke-width="2"/>
+</svg>

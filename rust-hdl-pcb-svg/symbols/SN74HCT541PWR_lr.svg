@@ -1,0 +1,152 @@
+<svg viewBox="-2000 -2000 4000 4000" xmlns="http://www.w3.org/2000/svg">
+<g transform=" translate(0,0)">
+<path d="M-600,1200 L-600,-1000 L700,-1000 L700,1200 z" fill="#FFFDB0" stroke="#AE5E46" stroke-width="5"/>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="end" x="700" y="-1000">
+U?
+</text>
+<text alignment-baseline="hanging" font-family="monospace" font-size="85" text-anchor="end" x="700" y="1200">
+SN74HCT541PWR
+</text>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="785" y="-915">
+1
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="615" y="-900">
+~OE1
+</text>
+<path d="M700,-900 L900,-900" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="785" y="-615">
+2
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="615" y="-600">
+A1
+</text>
+<path d="M700,-600 L900,-600" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="785" y="-415">
+3
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="615" y="-400">
+A2
+</text>
+<path d="M700,-400 L900,-400" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="785" y="-215">
+4
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="615" y="-200">
+A3
+</text>
+<path d="M700,-200 L900,-200" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="785" y="-15">
+5
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="615" y="0">
+A4
+</text>
+<path d="M700,0 L900,0" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="785" y="185">
+6
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="615" y="200">
+A5
+</text>
+<path d="M700,200 L900,200" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="785" y="385">
+7
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="615" y="400">
+A6
+</text>
+<path d="M700,400 L900,400" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="785" y="585">
+8
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="615" y="600">
+A7
+</text>
+<path d="M700,600 L900,600" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="785" y="785">
+9
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="615" y="800">
+A8
+</text>
+<path d="M700,800 L900,800" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-685" y="1085">
+10
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-515" y="1100">
+GND
+</text>
+<path d="M-600,1100 L-800,1100" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-685" y="785">
+11
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-515" y="800">
+Y8
+</text>
+<path d="M-600,800 L-800,800" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-685" y="585">
+12
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-515" y="600">
+Y7
+</text>
+<path d="M-600,600 L-800,600" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-685" y="385">
+13
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-515" y="400">
+Y6
+</text>
+<path d="M-600,400 L-800,400" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-685" y="185">
+14
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-515" y="200">
+Y5
+</text>
+<path d="M-600,200 L-800,200" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-685" y="-15">
+15
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-515" y="0">
+Y4
+</text>
+<path d="M-600,0 L-800,0" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-685" y="-215">
+16
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-515" y="-200">
+Y3
+</text>
+<path d="M-600,-200 L-800,-200" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-685" y="-415">
+17
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-515" y="-400">
+Y2
+</text>
+<path d="M-600,-400 L-800,-400" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-685" y="-615">
+18
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-515" y="-600">
+Y1
+</text>
+<path d="M-600,-600 L-800,-600" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="785" y="1085">
+19
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="615" y="1100">
+~OE2
+</text>
+<path d="M700,1100 L900,1100" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-685" y="-915">
+20
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-515" y="-900">
+VCC
+</text>
+<path d="M-600,-900 L-800,-900" fill="none" stroke="black" stroke-width="10"/>
+</g>
+<path d="M-800,1400 L-800,-1200 L900,-1200 L900,1400 z" fill="none" stroke="green" stroke-width="2"/>
+</svg>

@@ -1,0 +1,9 @@
+[workspace]
+
+members = [
+    "rust-hdl-pcb",
+    "rust-hdl-pcb-core",
+    "rust-hdl-pcb-svg",
+    "rust-hdl-pcb-kicad",
+    "rust-hdl-pcb-schematic-layout-tool",
+]

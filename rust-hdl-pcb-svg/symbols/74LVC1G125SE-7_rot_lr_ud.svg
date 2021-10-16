@@ -1,0 +1,47 @@
+<svg viewBox="-2000 -2000 4000 4000" xmlns="http://www.w3.org/2000/svg">
+<g transform="rotate(-90, 0, 0) translate(0,0)">
+<path d="M-400,400 L-400,-400 L400,-400 L400,400 z" fill="#FFFDB0" stroke="#AE5E46" stroke-width="5"/>
+<text alignment-baseline="hanging" font-family="monospace" font-size="85" text-anchor="end" x="400" y="400">
+U?
+</text>
+<text alignment-baseline="bottom" font-family="monospace" font-size="85" text-anchor="end" x="400" y="-400">
+74LVC1G125SE-7
+</text>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="485" y="185">
+1
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="315" y="200">
+~OE
+</text>
+<path d="M400,200 L600,200" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="begin" x="485" y="-15">
+2
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="end" x="315" y="0">
+A
+</text>
+<path d="M400,0 L600,0" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-485" y="-215">
+3
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-315" y="-200">
+GND
+</text>
+<path d="M-400,-200 L-600,-200" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-485" y="-15">
+4
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-315" y="0">
+Y
+</text>
+<path d="M-400,0 L-600,0" fill="none" stroke="black" stroke-width="10"/>
+<text font-family="monospace" font-size="85" text-anchor="end" x="-485" y="185">
+5
+</text>
+<text alignment-baseline="middle" font-family="monospace" font-size="85" text-anchor="begin" x="-315" y="200">
+VCC
+</text>
+<path d="M-400,200 L-600,200" fill="none" stroke="black" stroke-width="10"/>
+</g>
+<path d="M-600,600 L-600,-600 L600,-600 L600,600 z" fill="none" stroke="green" stroke-width="2"/>
+</svg>
