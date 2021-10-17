@@ -12,9 +12,24 @@ use std::collections::HashSet;
 use std::sync::{Arc, Mutex};
 
 #[derive(Data, Clone, PartialEq)]
+enum EditMode {
+    Wire,
+    Delete,
+    None,
+}
+
+#[derive(Data, Clone, PartialEq)]
 struct SnapPoint {
     port: usize,
     position: (f64, f64),
+    net_name: String,
+}
+
+#[derive(Data, Clone, PartialEq)]
+struct SnapWire {
+    cmd_index: usize,
+    start_position: (f64, f64),
+    end_position: (f64, f64),
     net_name: String,
 }
 
@@ -31,7 +46,8 @@ struct Schematic {
     orthogonal_traces: bool,
     net_selected: Option<String>,
     snap_point: Option<SnapPoint>,
-    wire_mode: bool,
+    snap_wire: Option<SnapWire>,
+    edit_mode: EditMode,
 }
 
 fn grid(x: f64) -> i32 {
@@ -157,6 +173,85 @@ impl Schematic {
         None
     }
 
+    pub fn highlight_snap_wire(&mut self, mouse: druid::kurbo::Point) -> Option<SnapWire> {
+        let match_distance = 10.0;
+        let mut layout = self.layout.lock().unwrap();
+
+        for (net_name, net_cmds) in &layout.nets {
+            let mut net = self.circuit.nets.iter().filter(|x| x.name == *net_name).next().unwrap();
+            let mut prev_point_screen = druid::kurbo::Point::new(0.0,0.0);
+            let mut prev_point = (0.0,0.0);
+
+            for (ndx, cmd) in net_cmds.iter().enumerate() {
+                let current_point_doc = match cmd {
+                    NetLayoutCmd::MoveToPort(port) | NetLayoutCmd::LineToPort(port) => {
+                        get_pin_net_location(&self.circuit, &layout, &net.pins[*port-1])
+                    }
+                    NetLayoutCmd::MoveToCoords(x,y) | NetLayoutCmd::LineToCoords(x,y) => {
+                        (*x,-*y)
+                    }
+                    NetLayoutCmd::Junction => {
+                        continue;
+                    }
+                };
+                let current_point = (current_point_doc.0 as f64, -current_point_doc.1 as f64);
+                let current_point_screen = self.map_doc_to_screen(current_point);
+                if ndx == 0 || match cmd { NetLayoutCmd::MoveToPort(_) |  NetLayoutCmd::MoveToCoords(_,_) => true, _ => false} {
+                    prev_point = current_point;
+                    prev_point_screen = current_point_screen;
+                    continue;
+                } else {
+                    let y_range = f64::min(prev_point_screen.y, current_point_screen.y)..
+                        f64::max(prev_point_screen.y, current_point_screen.y);
+                    let x_range = f64::min(prev_point_screen.x, current_point_screen.x)..
+                        f64::max(prev_point_screen.x, current_point_screen.x);
+
+                    if prev_point_screen.x == current_point_screen.x {
+                        if y_range.contains(&mouse.y){
+                            if (f64::abs(prev_point_screen.x - mouse.x) < match_distance){
+                                return Some(SnapWire {
+                                    cmd_index: ndx,
+                                    start_position: prev_point,
+                                    end_position: current_point,
+                                    net_name: net.name.clone(),
+                                });
+                            }
+                        }
+                    } else if prev_point_screen.y == current_point_screen.y {
+                        if x_range.contains(&mouse.x){
+                            if (f64::abs(prev_point_screen.y - mouse.y) < match_distance){
+                                return Some(SnapWire {
+                                    cmd_index: ndx,
+                                    start_position: prev_point,
+                                    end_position: current_point,
+                                    net_name: net.name.clone(),
+                                });
+                            }
+                        }
+                    } else if x_range.contains(&mouse.x) && y_range.contains(&mouse.y) {
+                        let slope = (current_point_screen.y - prev_point_screen.y) / (current_point_screen.x - prev_point_screen.x);
+                        let y_intercept = current_point_screen.y - slope * current_point_screen.x;
+                        let horizontal_x = ( mouse.y - y_intercept ) / slope;
+                        let horizontal_length = mouse.x - horizontal_x;
+                        let angle = f64::abs(f64::atan(slope));
+                        let distance = horizontal_length * f64::sin(angle);
+                        if (f64::abs(distance) < match_distance){
+                            return Some(SnapWire {
+                                cmd_index: ndx,
+                                start_position: prev_point,
+                                end_position: current_point,
+                                net_name: net.name.clone(),
+                            });
+                        }
+                    }
+                    prev_point_screen = current_point_screen;
+                    prev_point = current_point;
+                }
+            }
+        }
+        None
+    }
+
     pub fn abandon_wire_mode(&mut self) {
         self.partial_net = Arc::new(vec![]);
         self.net_selected = None;
@@ -262,9 +357,9 @@ impl Widget<Schematic> for SchematicViewer {
             Event::MouseDown(mouse) => {
                 ctx.set_active(true);
                 data.cursor = (mouse.pos.x, mouse.pos.y);
-                if !data.wire_mode {
+                if data.edit_mode == EditMode::None {
                     data.part_selected = data.hit_test(mouse.pos.into());
-                } else {
+                } else if data.edit_mode == EditMode::Wire {
                     let mut y = data
                         .partial_net
                         .iter()
@@ -285,6 +380,39 @@ impl Widget<Schematic> for SchematicViewer {
                     data.partial_net = Arc::new(y);
                     if can_close {
                         data.end_wire_mode();
+                    }
+                } else if data.edit_mode == EditMode::Delete {
+                    if let Some(snap) = &data.snap_wire {
+                        let mut layout = data.layout.lock().unwrap();
+                        let mut net_cmds = layout.net(&snap.net_name);
+
+                        let mut start_ndx = 0;
+                        let mut end_ndx = net_cmds.len();
+
+                        let before = &net_cmds[..snap.cmd_index];
+                        for (ndx, cmd) in before.iter().rev().enumerate() {
+                            match cmd {
+                                NetLayoutCmd::MoveToCoords(_,_) | NetLayoutCmd::MoveToPort(_) => {
+                                    start_ndx = before.len()-ndx-1;
+                                    break;
+                                }
+                                _ => {}
+                            }
+                        }
+
+                        let after = &net_cmds[snap.cmd_index..];
+                        for (ndx, cmd) in after.iter().enumerate() {
+                            match cmd {
+                                NetLayoutCmd::MoveToCoords(_,_) | NetLayoutCmd::MoveToPort(_) => {
+                                    end_ndx = snap.cmd_index+ndx;
+                                    break;
+                                }
+                                _ => {}
+                            }
+                        }
+                        net_cmds.drain(start_ndx..end_ndx);
+                        layout.set_net(&snap.net_name,net_cmds);
+
                     }
                 }
                 ctx.request_paint();
@@ -308,12 +436,21 @@ impl Widget<Schematic> for SchematicViewer {
                     }
                     data.cursor = (mouse.pos.x, mouse.pos.y);
                     ctx.request_paint();
-                } else if data.wire_mode {
+                } else if data.edit_mode == EditMode::Wire {
                     let pt = data.highlight_snap_points(mouse.pos);
                     if data.snap_point != pt {
                         data.snap_point = pt;
                         ctx.request_paint();
                     }
+                } else if data.edit_mode == EditMode::Delete {
+                    let pt = data.highlight_snap_wire(mouse.pos);
+                    if data.snap_wire != pt {
+                        data.snap_wire = pt;
+                        ctx.request_paint();
+                    }
+                } else {
+                    data.snap_wire = None;
+                    data.snap_point = None;
                 }
             }
             Event::Wheel(mouse) => {
@@ -330,12 +467,15 @@ impl Widget<Schematic> for SchematicViewer {
                 if ctx.is_active() && data.part_selected.is_some() {
                     data.orient_selected(&key.key.to_string());
                 } else {
-                    if key.key.to_string() == "w" {
-                        data.wire_mode = true;
+                    if data.edit_mode == EditMode::None && key.key.to_string() == "w" {
+                        data.edit_mode = EditMode::Wire;
+                    }
+                    if data.edit_mode == EditMode::None && key.key.to_string() == "d" {
+                        data.edit_mode = EditMode::Delete;
                     }
                     if key.key == KbKey::Escape {
                         data.abandon_wire_mode();
-                        data.wire_mode = false;
+                        data.edit_mode = EditMode::None;
                     }
                 }
                 ctx.request_paint();
@@ -345,7 +485,7 @@ impl Widget<Schematic> for SchematicViewer {
             }
             _ => (),
         }
-        ctx.set_cursor(if data.wire_mode {
+        ctx.set_cursor(if data.edit_mode == EditMode::Wire || data.edit_mode == EditMode::Delete {
             &Cursor::Crosshair
         } else {
             &Cursor::Arrow
@@ -531,6 +671,12 @@ impl Widget<Schematic> for SchematicViewer {
             if let Some(p) = &data.snap_point {
                 let disk = druid::kurbo::Circle::new(p.position, 20.0);
                 ctx.stroke(disk, &Color::from_hex_str("101010").unwrap(), 1.0);
+            }
+            if let Some(p) = &data.snap_wire {
+                let mut path = BezPath::new();
+                path.move_to(p.start_position);
+                path.line_to(p.end_position);
+                ctx.stroke(path, &Color::from_hex_str("FF0000").unwrap(), 20.0);
             }
         }
     }
@@ -879,7 +1025,8 @@ pub fn main() {
             orthogonal_traces: false,
             net_selected: None,
             snap_point: None,
-            wire_mode: false,
+            snap_wire:None,
+            edit_mode: EditMode::None,
         })
         .expect("launch failed");
 }
