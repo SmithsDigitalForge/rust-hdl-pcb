@@ -28,8 +28,7 @@ struct SnapPoint {
 #[derive(Data, Clone, PartialEq)]
 struct SnapWire {
     cmd_index: usize,
-    start_position: (f64, f64),
-    end_position: (f64, f64),
+    positions: Arc<Vec<(f64, f64)>>,
     net_name: String,
 }
 
@@ -75,6 +74,51 @@ fn is_layout_complete(net: &[NetLayoutCmd], port_count: usize) -> bool {
     true
 }
 
+fn get_wire_range(net_cmds: &[NetLayoutCmd], target_index: usize) -> std::ops::Range<usize>{
+
+    let mut start_ndx = 0;
+    let mut end_ndx = net_cmds.len();
+
+    let before = &net_cmds[..target_index];
+    for (ndx, cmd) in before.iter().rev().enumerate() {
+        match cmd {
+            NetLayoutCmd::MoveToCoords(_,_) | NetLayoutCmd::MoveToPort(_) => {
+                start_ndx = before.len()-ndx-1;
+                break;
+            }
+            _ => {}
+        }
+    }
+
+    let after = &net_cmds[target_index..];
+    for (ndx, cmd) in after.iter().enumerate() {
+        match cmd {
+            NetLayoutCmd::MoveToCoords(_,_) | NetLayoutCmd::MoveToPort(_) => {
+                end_ndx = target_index+ndx;
+                break;
+            }
+            _ => {}
+        }
+    }
+    start_ndx..end_ndx
+}
+
+fn map_line_to_ortho_points(p_start: &(f64,f64), p_end: &(f64,f64)) -> Vec<(f64,f64)> {
+    let p1 = (p_start.0 + (p_end.0 - p_start.0) / 2.0, p_start.1);
+    let p2 = (p_start.0 + (p_end.0 - p_start.0) / 2.0, p_end.1);
+    vec![
+        p_start.clone(),
+        p1,
+        p2,
+        p_end.clone()
+    ]
+}
+
+fn map_line_to_ortho_points_kurbo (p_start: &druid::kurbo::Point, p_end: &druid::kurbo::Point) -> Vec<druid::kurbo::Point> {
+    let points = map_line_to_ortho_points(&(p_start.x,p_start.y),&(p_end.x,p_end.y));
+    points.iter().map(|x| druid::kurbo::Point::new(x.0,x.1)).collect()
+}
+
 impl Schematic {
     // Map document coordinates to mouse coordinates
     pub fn map_doc_to_screen(&self, pos: (f64, f64)) -> druid::kurbo::Point {
@@ -101,6 +145,21 @@ impl Schematic {
         py /= self.scale;
         py *= -1.0;
         (px, py)
+    }
+
+    pub fn map_cmd_to_point(&self, layout: &SchematicLayout, cmd: &NetLayoutCmd, net: &Net) -> Option<(f64,f64)>{
+        let current_point_doc = match cmd {
+            NetLayoutCmd::MoveToPort(port) | NetLayoutCmd::LineToPort(port) => {
+                get_pin_net_location(&self.circuit, &layout, &net.pins[*port-1])
+            }
+            NetLayoutCmd::MoveToCoords(x,y) | NetLayoutCmd::LineToCoords(x,y) => {
+                (*x,-*y)
+            }
+            NetLayoutCmd::Junction => {
+                return None;
+            }
+        };
+        Some((current_point_doc.0 as f64, -current_point_doc.1 as f64))
     }
 
     pub fn shift_selected(&mut self, delta: (f64, f64)) {
@@ -173,7 +232,7 @@ impl Schematic {
         None
     }
 
-    pub fn highlight_snap_wire(&mut self, mouse: druid::kurbo::Point) -> Option<SnapWire> {
+    pub fn find_snap_wire_segment(&mut self, mouse: druid::kurbo::Point) -> Option<(String,usize)> {
         let match_distance = 10.0;
         let mut layout = self.layout.lock().unwrap();
 
@@ -183,66 +242,59 @@ impl Schematic {
             let mut prev_point = (0.0,0.0);
 
             for (ndx, cmd) in net_cmds.iter().enumerate() {
-                let current_point_doc = match cmd {
-                    NetLayoutCmd::MoveToPort(port) | NetLayoutCmd::LineToPort(port) => {
-                        get_pin_net_location(&self.circuit, &layout, &net.pins[*port-1])
-                    }
-                    NetLayoutCmd::MoveToCoords(x,y) | NetLayoutCmd::LineToCoords(x,y) => {
-                        (*x,-*y)
-                    }
-                    NetLayoutCmd::Junction => {
-                        continue;
-                    }
+                let current_point = match self.map_cmd_to_point(&layout, &cmd, net) {
+                    Some(point) => point,
+                    None => continue
                 };
-                let current_point = (current_point_doc.0 as f64, -current_point_doc.1 as f64);
+
                 let current_point_screen = self.map_doc_to_screen(current_point);
                 if ndx == 0 || match cmd { NetLayoutCmd::MoveToPort(_) |  NetLayoutCmd::MoveToCoords(_,_) => true, _ => false} {
                     prev_point = current_point;
                     prev_point_screen = current_point_screen;
                     continue;
                 } else {
-                    let y_range = f64::min(prev_point_screen.y, current_point_screen.y)..
-                        f64::max(prev_point_screen.y, current_point_screen.y);
-                    let x_range = f64::min(prev_point_screen.x, current_point_screen.x)..
-                        f64::max(prev_point_screen.x, current_point_screen.x);
+                    let mut points =
+                    if self.orthogonal_traces {
+                        map_line_to_ortho_points_kurbo(&prev_point_screen, &current_point_screen)
+                    } else {
+                        vec![prev_point_screen,current_point_screen]
+                    };
+                    let mut prev_store: Option<druid::kurbo::Point> = None;
+                    for point in points {
+                        match prev_store {
+                            Some(prev) => {
+                                let y_range = f64::min(prev.y, point.y)..
+                                    f64::max(prev.y, point.y);
+                                let x_range = f64::min(prev.x, point.x)..
+                                    f64::max(prev.x, point.x);
 
-                    if prev_point_screen.x == current_point_screen.x {
-                        if y_range.contains(&mouse.y){
-                            if (f64::abs(prev_point_screen.x - mouse.x) < match_distance){
-                                return Some(SnapWire {
-                                    cmd_index: ndx,
-                                    start_position: prev_point,
-                                    end_position: current_point,
-                                    net_name: net.name.clone(),
-                                });
+                                if prev.x == point.x {
+                                    if y_range.contains(&mouse.y){
+                                        if (f64::abs(prev.x - mouse.x) < match_distance){
+                                            return Some((net.name.clone(),ndx));
+                                        }
+                                    }
+                                } else if prev.y == point.y {
+                                    if x_range.contains(&mouse.x){
+                                        if (f64::abs(prev.y - mouse.y) < match_distance){
+                                            return Some((net.name.clone(),ndx));
+                                        }
+                                    }
+                                } else if x_range.contains(&mouse.x) && y_range.contains(&mouse.y) {
+                                    let slope = (point.y - prev.y) / (point.x - prev.x);
+                                    let y_intercept = point.y - slope * point.x;
+                                    let horizontal_x = ( mouse.y - y_intercept ) / slope;
+                                    let horizontal_length = mouse.x - horizontal_x;
+                                    let angle = f64::abs(f64::atan(slope));
+                                    let distance = horizontal_length * f64::sin(angle);
+                                    if (f64::abs(distance) < match_distance){
+                                        return Some((net.name.clone(),ndx));
+                                    }
+                                }
                             }
+                            None => {}
                         }
-                    } else if prev_point_screen.y == current_point_screen.y {
-                        if x_range.contains(&mouse.x){
-                            if (f64::abs(prev_point_screen.y - mouse.y) < match_distance){
-                                return Some(SnapWire {
-                                    cmd_index: ndx,
-                                    start_position: prev_point,
-                                    end_position: current_point,
-                                    net_name: net.name.clone(),
-                                });
-                            }
-                        }
-                    } else if x_range.contains(&mouse.x) && y_range.contains(&mouse.y) {
-                        let slope = (current_point_screen.y - prev_point_screen.y) / (current_point_screen.x - prev_point_screen.x);
-                        let y_intercept = current_point_screen.y - slope * current_point_screen.x;
-                        let horizontal_x = ( mouse.y - y_intercept ) / slope;
-                        let horizontal_length = mouse.x - horizontal_x;
-                        let angle = f64::abs(f64::atan(slope));
-                        let distance = horizontal_length * f64::sin(angle);
-                        if (f64::abs(distance) < match_distance){
-                            return Some(SnapWire {
-                                cmd_index: ndx,
-                                start_position: prev_point,
-                                end_position: current_point,
-                                net_name: net.name.clone(),
-                            });
-                        }
+                        prev_store = Some(point)
                     }
                     prev_point_screen = current_point_screen;
                     prev_point = current_point;
@@ -252,7 +304,34 @@ impl Schematic {
         None
     }
 
-    pub fn abandon_wire_mode(&mut self) {
+    pub fn highlight_snap_wire(&mut self, mouse: druid::kurbo::Point) -> Option<SnapWire> {
+        if let Some((name,ndx)) = self.find_snap_wire_segment(mouse) {
+            let mut layout = self.layout.lock().unwrap();
+            let mut net_cmds = &layout.net(&name);
+            let mut pos = vec![];
+            let mut net = self.circuit.nets.iter().filter(|x| x.name == *name).next().unwrap();
+            for cmd in &net_cmds[get_wire_range(&net_cmds,ndx)]{
+                if let Some(p) = self.map_cmd_to_point(&layout, &cmd, &net) {
+                    if self.orthogonal_traces && !pos.is_empty() {
+                        for point in &map_line_to_ortho_points(&pos.last().unwrap(), &p)[1..] {
+                            pos.push(*point);
+                        }
+                    } else {
+                        pos.push(p);
+                    }
+                };
+            }
+
+            return Some(SnapWire {
+                cmd_index: ndx,
+                positions: Arc::from(pos),
+                net_name: net.name.clone(),
+            });
+        }
+        None
+    }
+
+        pub fn abandon_wire_mode(&mut self) {
         self.partial_net = Arc::new(vec![]);
         self.net_selected = None;
     }
@@ -328,8 +407,7 @@ trait OrthoLineTo {
 
 impl OrthoLineTo for BezPath {
     fn ortho_line_to<P: Into<druid::Point>>(&mut self, p: P) {
-        let p3 = p.into();
-
+        let first = p.into();
         let last = match self.elements().last().unwrap() {
             PathEl::MoveTo(p) => p,
             PathEl::LineTo(p) => p,
@@ -340,13 +418,18 @@ impl OrthoLineTo for BezPath {
                 y: f64::NAN,
             },
         };
-        let p1 = (last.x + (p3.x - last.x) / 2.0, last.y);
-        let p2 = (last.x + (p3.x - last.x) / 2.0, p3.y);
-        self.line_to(p1);
-        self.line_to(p2);
-        self.line_to(p3);
+        let points = map_line_to_ortho_points(&(last.x,last.y), &(first.x,first.y));
+        if points.len() > 1 {
+            for point in &points[1..] {
+                self.line_to(druid::Point {
+                    x: point.0,
+                    y: point.1,
+                });
+            }
+        }
     }
 }
+
 
 struct SchematicViewer;
 
@@ -385,34 +468,8 @@ impl Widget<Schematic> for SchematicViewer {
                     if let Some(snap) = &data.snap_wire {
                         let mut layout = data.layout.lock().unwrap();
                         let mut net_cmds = layout.net(&snap.net_name);
-
-                        let mut start_ndx = 0;
-                        let mut end_ndx = net_cmds.len();
-
-                        let before = &net_cmds[..snap.cmd_index];
-                        for (ndx, cmd) in before.iter().rev().enumerate() {
-                            match cmd {
-                                NetLayoutCmd::MoveToCoords(_,_) | NetLayoutCmd::MoveToPort(_) => {
-                                    start_ndx = before.len()-ndx-1;
-                                    break;
-                                }
-                                _ => {}
-                            }
-                        }
-
-                        let after = &net_cmds[snap.cmd_index..];
-                        for (ndx, cmd) in after.iter().enumerate() {
-                            match cmd {
-                                NetLayoutCmd::MoveToCoords(_,_) | NetLayoutCmd::MoveToPort(_) => {
-                                    end_ndx = snap.cmd_index+ndx;
-                                    break;
-                                }
-                                _ => {}
-                            }
-                        }
-                        net_cmds.drain(start_ndx..end_ndx);
+                        net_cmds.drain(get_wire_range(&net_cmds, snap.cmd_index));
                         layout.set_net(&snap.net_name,net_cmds);
-
                     }
                 }
                 ctx.request_paint();
@@ -673,10 +730,14 @@ impl Widget<Schematic> for SchematicViewer {
                 ctx.stroke(disk, &Color::from_hex_str("101010").unwrap(), 1.0);
             }
             if let Some(p) = &data.snap_wire {
-                let mut path = BezPath::new();
-                path.move_to(p.start_position);
-                path.line_to(p.end_position);
-                ctx.stroke(path, &Color::from_hex_str("FF0000").unwrap(), 20.0);
+                if p.positions.len() > 1 {
+                    let mut path = BezPath::new();
+                    path.move_to(*p.positions.first().unwrap());
+                    for position in &p.positions[1..] {
+                        path.line_to(*position);
+                    }
+                    ctx.stroke(path, &Color::from_hex_str("FF0000").unwrap(), 20.0);
+                }
             }
         }
     }
