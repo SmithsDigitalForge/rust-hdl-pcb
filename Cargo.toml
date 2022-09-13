@@ -6,4 +6,5 @@ members = [
     "rust-hdl-pcb-svg",
     "rust-hdl-pcb-kicad",
     "rust-hdl-pcb-schematic-layout-tool",
+    "rust-hdl-pcb-schematic-egui"
 ]
